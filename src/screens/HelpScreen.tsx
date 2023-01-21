@@ -1,8 +1,8 @@
 import React from "react";
 import { Text, View } from "react-native";
-import Title from "../components/Title";
-import { HELP_LIST } from "../assets/constants";
-import { verticalScale } from "../helpers/scaleHelper";
+import Title from "src/components/Title";
+import { HELP_LIST } from "src/assets/constants";
+import { verticalScale } from "src/helpers/scaleHelper";
 
 const HelpScreen = () => {
   return (

@@ -7,3 +7,17 @@ export const HELP_LIST = [
   "Track your trip history and total spend",
   "Share the cost if you are traveling with friends",
 ];
+
+export enum SETTINGS {
+  city = "city",
+  highway = "highway",
+  cost = "cost",
+  locale = "locale",
+}
+
+export const DEFAULT_SETTINGS = {
+  [SETTINGS.city]: 0,
+  [SETTINGS.highway]: 0,
+  [SETTINGS.cost]: 0,
+  [SETTINGS.locale]: "EU",
+};

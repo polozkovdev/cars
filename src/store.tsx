@@ -1,39 +1,76 @@
-import { makeAutoObservable } from "mobx";
+import { action, makeAutoObservable } from "mobx";
 import { createContext } from "react";
+import dbSqLite from "src/helpers/dbSQLite";
+import { DEFAULT_SETTINGS } from "src/assets/constants";
 
-export interface ISettingsStore {
+export interface ISettings {
   city: number;
   highway: number;
   cost: number;
+  locale: string;
 }
 
-const DEFAULT_SETTINGS = {
-  city: 0,
-  highway: 0,
-  cost: 0,
-};
-
 export class SettingsStore {
-  settingsStore: ISettingsStore = DEFAULT_SETTINGS;
+  settings: ISettings = DEFAULT_SETTINGS;
+  settingsLoaded = false;
 
   constructor() {
     makeAutoObservable(this);
+    this.initDB();
   }
 
-  get getSettings(): ISettingsStore {
-    return this.settingsStore;
+  initDB() {
+    dbSqLite.createTables().then(
+      action("fetchSuccess", () => {
+        this.getSettings();
+      }),
+      action("fetchError", (error) => {
+        console.log(error);
+      })
+    );
   }
 
-  setSettings(props: ISettingsStore) {
-    this.settingsStore = props;
+  getSettings() {
+    dbSqLite.getSettingsDB().then(
+      action("fetchSuccess", (settings) => {
+        console.log("settings", settings);
+        this.settings = settings.length ? settings[0] : DEFAULT_SETTINGS;
+        this.settingsLoaded = true;
+      }),
+      action("fetchError", (error) => {
+        console.log(error);
+      })
+    );
+  }
+
+  async updateSettings(settings: ISettings) {
+    console.log("updateSettings", settings);
+    dbSqLite.updateSettings(settings).then(
+      action("fetchSuccess", (settings) => {
+        console.log("fetchSuccess settings", settings);
+        this.settings = settings;
+      }),
+      action("fetchError", (error) => {
+        console.log(error);
+      })
+    );
+  }
+
+  get getSet() {
+    console.log("this.settings", this.settings);
+    return this.settings;
+  }
+
+  setSettings(props: ISettings) {
+    this.settings = props;
   }
 }
 
 export class CoreStore {
-  settingsStore: SettingsStore;
+  settings: SettingsStore;
 
   constructor() {
-    this.settingsStore = new SettingsStore();
+    this.settings = new SettingsStore();
   }
 }
 

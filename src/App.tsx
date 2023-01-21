@@ -1,10 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
-import HomeScreen from "./screens/HomeScreen";
-import LoadingScreen from "./screens/LoadingScreen";
-import useCachedResources from "./hooks/useCachedResources";
+import { Dimensions } from "react-native";
+import * as SplashScreen from "expo-splash-screen";
+import {
+  SafeAreaView,
+  useSafeAreaFrame,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
+import HomeScreen from "src/screens/HomeScreen";
+import LoadingScreen from "src/screens/LoadingScreen";
+import useCachedResources from "src/hooks/useCachedResources";
+import { setPresetScreenHeight } from "src/helpers/scaleHelper";
+
+// SplashScreen.preventAutoHideAsync();
 
 const App = () => {
+  const insets = useSafeAreaInsets();
+  const frame = useSafeAreaFrame();
   // const { showInterstitial, isLoaded } = useAdMob();
 
   const [secsLoading, setSecsLoading] = useState<number>(0);
@@ -12,6 +23,15 @@ const App = () => {
   const [isStart, setIsStart] = useState<boolean>(false);
 
   const isCachedComplete = useCachedResources();
+  useEffect(() => {
+    const { height } = Dimensions.get("window");
+
+    if (height - frame.height > 200) {
+      setPresetScreenHeight(height - insets.top - insets.bottom);
+    } else {
+      setPresetScreenHeight(frame.height - insets.top - insets.bottom);
+    }
+  }, [frame.height, insets.top, insets.bottom, isDone]);
   useEffect(() => {
     if ((isCachedComplete && true && secsLoading >= 2) || secsLoading >= 5) {
       setIsDone(true);

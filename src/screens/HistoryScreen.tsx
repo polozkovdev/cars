@@ -1,7 +1,7 @@
 import React from "react";
 import { ScrollView, View, Text } from "react-native";
-import Title from "../components/Title";
-import { verticalScale } from "../helpers/scaleHelper";
+import Title from "src/components/Title";
+import { verticalScale } from "src/helpers/scaleHelper";
 
 const HistoryScreen = () => {
   const isEmptyHistory = true;

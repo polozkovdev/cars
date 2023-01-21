@@ -2,16 +2,20 @@ import { View, Text } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { verticalScale } from "../helpers/scaleHelper";
-import NewTripScreen from "./NewTripScreen";
-import SettingsScreen from "./SettingsScreen";
-import HistoryScreen from "./HistoryScreen";
-import HelpScreen from "./HelpScreen";
+import { verticalScale } from "src/helpers/scaleHelper";
+import NewTripScreen from "src/screens/NewTripScreen";
+import SettingsScreen from "src/screens/SettingsScreen";
+import HistoryScreen from "src/screens/HistoryScreen";
+import HelpScreen from "src/screens/HelpScreen";
 
 const Stack = createNativeStackNavigator<any>();
 const Tab = createBottomTabNavigator();
 
-function Header({ label }: { label: string }) {
+interface IHeaderProps {
+  label: string;
+}
+
+function Header({ label }: IHeaderProps) {
   return (
     <View
       style={{
@@ -155,6 +159,10 @@ export function TabNavigator() {
         options={{
           header: (props) => <Header {...props} label={"NewTrip"} />,
           tabBarLabel: "New Trip",
+          tabBarStyle: {
+            display: "none",
+            marginBottom: verticalScale(60),
+          },
         }}
       />
       <Tab.Screen
@@ -203,7 +211,7 @@ export default function HomeScreen() {
         initialRouteName="main"
       >
         <Stack.Screen name="main" component={TabNavigator} />
-        {/*<Stack.Screen name="NewTrip" component={NewTripScreen} />*/}
+        <Stack.Screen name="NewTrip" component={NewTripScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import { Text, View } from "react-native";
-import Button from "../components/Button";
-import Title from "../components/Title";
-import { RadioItem } from "../components/RadioItem";
-import { verticalScale } from "../helpers/scaleHelper";
-import Input from "../components/Input";
+import Button from "src/components/Button";
+import Title from "src/components/Title";
+import { RadioItem } from "src/components/RadioItem";
+import { verticalScale } from "src/helpers/scaleHelper";
+import Input from "src/components/Input";
 import { observer } from "mobx-react-lite";
-import { coreStore, ISettingsStore } from "../store";
+import { coreStore, ISettings } from "src/store";
 
 const SettingsScreen = ({ navigation }: any) => {
   const [isUSActive, setIsUSActive] = useState(false);
-  const [settings, setSettings] = useState<ISettingsStore>(
-    coreStore.settingsStore.getSettings
+  const [settings, setSettings] = useState<ISettings>(
+    coreStore.settings.getSet
   );
   return (
     <View
@@ -67,8 +67,8 @@ const SettingsScreen = ({ navigation }: any) => {
           width: verticalScale(210),
         }}
       >
-        <Input label="City" key="city" value={settings.city} />
-        <Input label="Highway" key="highway" value={settings.highway} />
+        <Input label="City" type="city" value={settings.city} />
+        <Input label="Highway" type="highway" value={settings.highway} />
       </View>
       <View
         style={{
@@ -77,7 +77,7 @@ const SettingsScreen = ({ navigation }: any) => {
       >
         <Input
           label="1 Liter Cost"
-          key="cost"
+          type="cost"
           prefix="$"
           value={settings.cost}
         />

@@ -1,5 +1,5 @@
 import React from "react";
-import { verticalScale } from "../helpers/scaleHelper";
+import { verticalScale } from "src/helpers/scaleHelper";
 import { TouchableOpacity, Text, View } from "react-native";
 
 interface IRadioItemProps {

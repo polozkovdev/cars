@@ -1,6 +1,7 @@
 import "react-native-gesture-handler";
+import "@expo-google-fonts/roboto";
 import { AppRegistry, Platform } from "react-native";
-import { AppWrapper } from "./src/AppWrapper";
+import { AppWrapper } from "src/AppWrapper";
 
 AppRegistry.registerComponent("main", () => AppWrapper);
 

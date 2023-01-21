@@ -1,9 +1,9 @@
 import React from "react";
 import { Image, Text, View } from "react-native";
 
-import { verticalScale } from "../helpers/scaleHelper";
-import { useSplashScreenHideProcess } from "../hooks/useSplashScreenProcess";
-import Button from "../components/Button";
+import { verticalScale } from "src/helpers/scaleHelper";
+import { useSplashScreenHideProcess } from "src/hooks/useSplashScreenProcess";
+import Button from "src/components/Button";
 
 export type LoadingScreenProps = {
   isLoading: boolean;
@@ -30,7 +30,7 @@ export default function LoadingScreen({
         <>
           <Image
             resizeMode="cover"
-            source={require("../assets/images/logo.png")}
+            source={require("src/assets/images/logo.png")}
             style={{
               marginTop: verticalScale(127),
               width: verticalScale(140),
@@ -72,7 +72,7 @@ export default function LoadingScreen({
           </View>
           <Image
             resizeMode="contain"
-            source={require("../assets/images/hch.png")}
+            source={require("src/assets/images/hch.png")}
             style={{
               position: "absolute",
               bottom: verticalScale(63),

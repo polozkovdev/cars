@@ -1,17 +1,25 @@
 import React, { useState } from "react";
 import { Text, TextInput, View } from "react-native";
-import { verticalScale } from "../helpers/scaleHelper";
+import { verticalScale } from "src/helpers/scaleHelper";
 import { observer } from "mobx-react-lite";
-import { coreStore } from "../store";
+import { coreStore, ISettings } from "src/store";
 
 interface IInputProps {
   label: string;
-  key: string;
+  type: string;
   value: number;
   prefix?: string;
+
+  onChange?(props: ISettings): void;
 }
 
-const Input: React.FC<IInputProps> = ({ label, key, value, prefix = "" }) => {
+const Input: React.FC<IInputProps> = ({
+  label,
+  type,
+  value,
+  onChange,
+  prefix = "",
+}) => {
   const [text, setText] = useState(value);
   const onChanged = (text: string) => {
     let newText = "";
@@ -25,9 +33,9 @@ const Input: React.FC<IInputProps> = ({ label, key, value, prefix = "" }) => {
       }
     }
     setText(+newText);
-    coreStore.settingsStore.setSettings({
-      ...coreStore.settingsStore.getSettings,
-      [key]: newText,
+    coreStore.settings.updateSettings({
+      ...coreStore.settings.getSet,
+      [type]: newText,
     });
   };
   return (
