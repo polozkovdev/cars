@@ -23,6 +23,7 @@ const App = () => {
   const [isStart, setIsStart] = useState<boolean>(false);
 
   const isCachedComplete = useCachedResources();
+  console.log("isCachedComplete", isCachedComplete);
   useEffect(() => {
     const { height } = Dimensions.get("window");
 
@@ -33,7 +34,7 @@ const App = () => {
     }
   }, [frame.height, insets.top, insets.bottom, isDone]);
   useEffect(() => {
-    if ((isCachedComplete && true && secsLoading >= 2) || secsLoading >= 5) {
+    if ((isCachedComplete && false && secsLoading >= 2) || secsLoading >= 5) {
       setIsDone(true);
     }
   }, [isCachedComplete, secsLoading]);

@@ -22,20 +22,13 @@ const Input: React.FC<IInputProps> = ({
 }) => {
   const [text, setText] = useState(value);
   const onChanged = (text: string) => {
-    let newText = "";
-    let numbers = "0123456789,.";
-
-    for (let i = 0; i < text.length; i++) {
-      if (numbers.indexOf(text[i]) > -1) {
-        newText = newText + text[i];
-      } else {
-        alert("please enter numbers only");
-      }
-    }
-    setText(+newText);
+    const number = text.replace(/[^0-9.,]/g, "");
+    const newValue = isNaN(+number) ? value : +number;
+    console.log("number", number);
+    setText(newValue);
     coreStore.settings.updateSettings({
       ...coreStore.settings.getSet,
-      [type]: newText,
+      [type]: newValue,
     });
   };
   return (
@@ -64,7 +57,7 @@ const Input: React.FC<IInputProps> = ({
         keyboardType="numeric"
         onChangeText={(text) => onChanged(text)}
         value={prefix + text}
-        maxLength={10}
+        maxLength={4}
       />
     </View>
   );

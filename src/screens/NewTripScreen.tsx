@@ -3,8 +3,49 @@ import { ImageBackground, Text, View } from "react-native";
 import Title from "src/components/Title";
 import { verticalScale } from "src/helpers/scaleHelper";
 import Button from "src/components/Button";
+import { coreStore } from "src/store";
+import { TRIP_STEPS } from "src/assets/constants";
+import { observer } from "mobx-react-lite";
 
 const NewTripScreen = () => {
+  const onChangeHandler = () => {
+    const trip = () => {
+      switch (coreStore.trip.getTr) {
+        case TRIP_STEPS.start:
+          return TRIP_STEPS.continue;
+        case TRIP_STEPS.continue:
+          return TRIP_STEPS.finish;
+        case TRIP_STEPS.finish:
+          return TRIP_STEPS.result;
+        case TRIP_STEPS.result:
+        default:
+          return TRIP_STEPS.start;
+      }
+    };
+    coreStore.trip.updateTrip(trip());
+  };
+  const getDataByTrip = () => {
+    switch (coreStore.trip.getTr) {
+      case TRIP_STEPS.continue:
+        return {
+          title: "Trip",
+          button: "FINISH",
+        };
+      case TRIP_STEPS.finish:
+        return {
+          title: "Share The Cost",
+          button: "SHARE",
+        };
+      case TRIP_STEPS.result:
+        return {
+          title: "Per Person",
+          button: "NEW TRIP",
+        };
+      case TRIP_STEPS.start:
+      default:
+        return { title: "New Trip", button: "START" };
+    }
+  };
   return (
     <View
       style={{
@@ -14,7 +55,7 @@ const NewTripScreen = () => {
         backgroundColor: "#fff",
       }}
     >
-      <Title text="New Trip" />
+      <Title text={getDataByTrip().title} />
       <ImageBackground
         resizeMode="contain"
         style={{
@@ -80,12 +121,12 @@ const NewTripScreen = () => {
         0 km
       </Text>
       <Button
-        style={{ marginTop: "auto" }}
-        text="START"
-        handler={() => console.log("handler")}
+        style={{ marginTop: "auto", marginBottom: verticalScale(100) }}
+        text={getDataByTrip().button}
+        handler={onChangeHandler}
       />
     </View>
   );
 };
 
-export default NewTripScreen;
+export default observer(NewTripScreen);

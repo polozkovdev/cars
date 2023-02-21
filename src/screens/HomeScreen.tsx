@@ -41,7 +41,7 @@ function Header({ label }: IHeaderProps) {
 export function TabNavigator() {
   return (
     <Tab.Navigator
-      initialRouteName="NewTrip"
+      initialRouteName="Settings"
       screenOptions={({ route }) => ({
         tabBarIcon: ({ color }) => {
           if (route.name === "NewTrip") {

@@ -21,3 +21,18 @@ export const DEFAULT_SETTINGS = {
   [SETTINGS.cost]: 0,
   [SETTINGS.locale]: "EU",
 };
+
+export enum TRIP_STEPS {
+  start,
+  continue,
+  finish,
+  result,
+}
+
+export interface ITrip {
+  trip: TRIP_STEPS;
+}
+
+export const DEFAULT_TRIP = {
+  trip: TRIP_STEPS.start,
+};
