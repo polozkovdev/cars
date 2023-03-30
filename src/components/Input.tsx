@@ -22,17 +22,24 @@ const Input: React.FC<IInputProps> = ({
 }) => {
   const [text, setText] = useState(value);
   const onChanged = (text: string) => {
-    const number = text.replace(/[^0-9.,]/g, "");
-    const newValue = isNaN(+number) ? value : +number;
-    console.log("number", number);
-    setText(newValue);
+    const value = prefix ? text.slice(1) : text;
+    if (isNaN(+value)) {
+      return;
+    }
+    setText(+value);
     coreStore.settings.updateSettings({
       ...coreStore.settings.getSet,
-      [type]: newValue,
+      [type]: +value,
     });
   };
   return (
-    <View>
+    <View
+      style={{
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
       <Text
         style={{
           color: "#000",
@@ -55,9 +62,9 @@ const Input: React.FC<IInputProps> = ({
           textAlign: "center",
         }}
         keyboardType="numeric"
-        onChangeText={(text) => onChanged(text)}
+        onChangeText={(text) => onChanged(prefix ? text.slice(1) : text)}
         value={prefix + text}
-        maxLength={4}
+        maxLength={6}
       />
     </View>
   );

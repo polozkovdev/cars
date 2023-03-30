@@ -7,9 +7,9 @@ import { verticalScale } from "src/helpers/scaleHelper";
 import Input from "src/components/Input";
 import { observer } from "mobx-react-lite";
 import { coreStore, ISettings } from "src/store";
+import { LOCALE } from "src/assets/constants";
 
 const SettingsScreen = ({ navigation }: any) => {
-  const [isUSActive, setIsUSActive] = useState(false);
   const [settings, setSettings] = useState<ISettings>(
     coreStore.settings.getSet
   );
@@ -35,14 +35,14 @@ const SettingsScreen = ({ navigation }: any) => {
         }}
       >
         <RadioItem
-          label="US"
-          isActive={isUSActive}
-          onSelect={() => setIsUSActive(true)}
+          label={LOCALE.US}
+          isActive={settings.locale === LOCALE.US}
+          onSelect={() => setSettings({ ...settings, locale: LOCALE.US })}
         />
         <RadioItem
-          label="EU"
-          isActive={!isUSActive}
-          onSelect={() => setIsUSActive(false)}
+          label={LOCALE.EU}
+          isActive={settings.locale === LOCALE.EU}
+          onSelect={() => setSettings({ ...settings, locale: LOCALE.EU })}
         />
       </View>
       <View style={{ width: verticalScale(305) }}>
@@ -76,9 +76,9 @@ const SettingsScreen = ({ navigation }: any) => {
         }}
       >
         <Input
-          label="1 Liter Cost"
+          label={`1 ${settings.locale === LOCALE.US ? "Gallon" : "Liter"} Cost`}
           type="cost"
-          prefix="$"
+          prefix={`${settings.locale === LOCALE.US ? "$" : "€"}`}
           value={settings.cost}
         />
       </View>

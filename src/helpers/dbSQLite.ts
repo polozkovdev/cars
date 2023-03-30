@@ -1,6 +1,6 @@
 import * as SQLite from "expo-sqlite";
 import { ISettings } from "src/store";
-import { ITrip, TRIP_STEPS } from "src/assets/constants";
+import { TRIP_STEPS } from "src/assets/constants";
 
 export class SQLiteDB {
   db: SQLite.WebSQLDatabase;
@@ -90,9 +90,11 @@ export class SQLiteDB {
       this.db.transaction(
         (tx) => {
           return tx.executeSql(
-            "UPDATE settings SET city = ?, highway = ? , cost = ?, locale = ?",
+            JSON.stringify(settings),
+            // "UPDATE settings SET city = ?, highway = ? , cost = ?, locale = ?",
             [settings.city, settings.highway, settings.cost, settings.locale],
             () => {
+              console.log("settings", settings);
               resolve(settings);
             }
           );

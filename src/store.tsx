@@ -4,8 +4,17 @@ import dbSqLite from "src/helpers/dbSQLite";
 import {
   DEFAULT_SETTINGS,
   DEFAULT_TRIP,
+  LOCALE,
+  SETTINGS,
   TRIP_STEPS,
 } from "src/assets/constants";
+
+export interface IConfig {
+  [SETTINGS.city]?: number;
+  [SETTINGS.highway]?: number;
+  [SETTINGS.cost]?: number;
+  [SETTINGS.locale]?: LOCALE;
+}
 
 export interface ISettings {
   city: number;

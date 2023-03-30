@@ -1,7 +1,7 @@
 import React from "react";
-import { ScrollView, View, Text } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import Title from "src/components/Title";
-import { verticalScale } from "src/helpers/scaleHelper";
+import { defFSF, verHorCenter } from "src/helpers/styles";
 
 const HistoryScreen = () => {
   const isEmptyHistory = true;
@@ -14,17 +14,13 @@ const HistoryScreen = () => {
       {isEmptyHistory && (
         <View
           style={{
-            flexDirection: "column",
-            justifyContent: "center",
             height: "100%",
-            alignItems: "center",
+            ...verHorCenter,
           }}
         >
           <Text
             style={{
-              fontSize: verticalScale(18),
-              lineHeight: verticalScale(32),
-              fontFamily: "Roboto_400Regular",
+              ...defFSF,
               color: "#000",
             }}
           >
@@ -32,9 +28,7 @@ const HistoryScreen = () => {
           </Text>
           <Text
             style={{
-              fontSize: verticalScale(18),
-              lineHeight: verticalScale(32),
-              fontFamily: "Roboto_400Regular",
+              ...defFSF,
               color: "#000",
             }}
           >

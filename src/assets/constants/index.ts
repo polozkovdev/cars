@@ -8,6 +8,11 @@ export const HELP_LIST = [
   "Share the cost if you are traveling with friends",
 ];
 
+export enum LOCALE {
+  EU = "EU",
+  US = "US",
+}
+
 export enum SETTINGS {
   city = "city",
   highway = "highway",
@@ -19,7 +24,7 @@ export const DEFAULT_SETTINGS = {
   [SETTINGS.city]: 0,
   [SETTINGS.highway]: 0,
   [SETTINGS.cost]: 0,
-  [SETTINGS.locale]: "EU",
+  [SETTINGS.locale]: LOCALE.EU,
 };
 
 export enum TRIP_STEPS {

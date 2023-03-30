@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Dimensions } from "react-native";
+import * as Location from "expo-location";
 import * as SplashScreen from "expo-splash-screen";
 import {
   SafeAreaView,
@@ -21,6 +22,11 @@ const App = () => {
   const [secsLoading, setSecsLoading] = useState<number>(0);
   const [isDone, setIsDone] = useState<boolean>(false);
   const [isStart, setIsStart] = useState<boolean>(false);
+
+  const [location, setLocation] = useState<Location.LocationObject | null>(
+    null
+  );
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   const isCachedComplete = useCachedResources();
   console.log("isCachedComplete", isCachedComplete);
@@ -47,30 +53,27 @@ const App = () => {
 
     return () => timerId && clearInterval(timerId);
   }, [secsLoading]);
-  // useEffect(() => {
-  //   const getLocation = () => {
-  //     const result = requestLocationPermission();
-  //     result.then((res) => {
-  //       console.log("res is:", res);
-  //       if (res) {
-  //         getCurrentPosition(
-  //           (position) => {
-  //             console.log(position);
-  //             // setLocation(position);
-  //           },
-  //           (error) => {
-  //             // See error code charts below.
-  //             console.log(error.code, error.message);
-  //             // setLocation(false);
-  //           },
-  //           { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
-  //         );
-  //       }
-  //     });
-  //     console.log(location);
-  //   };
-  //   getLocation();
-  // }, []);
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      console.log("location", location);
+      setLocation(location);
+    })();
+  }, []);
+
+  let text = "Waiting..";
+  if (errorMsg) {
+    text = errorMsg;
+  } else if (location) {
+    text = JSON.stringify(location);
+  }
+
   if (!isDone) {
     return null;
   }
